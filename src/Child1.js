@@ -10,7 +10,7 @@ class Child1 extends Component {
   componentDidMount() {}
 
   componentDidUpdate() {
-    var data = this.props.csv_data;
+    var data = this.props.csv_data.slice(0,301);
     //console.log(data);
     const sentimentColorScale = d3.scaleLinear().domain([-1, 0, 1]).range(["red", "#ECECEC", "green"]);
     const subjectivityColorScale = d3.scaleLinear().domain([0,1]).range(["#ECECEC","#4467C4"]);
@@ -50,7 +50,7 @@ class Child1 extends Component {
     .data(this.state.colorScale==='Sentiment'? [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0, -0.1, -0.2, -0.3, -0.4, -0.5, -0.6, -0.7, -0.8, -0.9, -1] : [1, 0.95, 0.85, 0.8, 0.75, 0.7, 0.65, 0.6, 0.55, 0.5, 0.45, 0.4, 0.35, 0.3, 0.25, 0.2, 0.15, 0.1, 0.05, 0]
     )
     .join('rect')
-    .attr('x', 1300)
+    .attr('x', 800)
     .attr('y', (d,i)=> (100+i*20))
     .attr('fill', d=> this.state.colorScale==='Sentiment'? sentimentColorScale(d): subjectivityColorScale(d))
     .attr('width', 40)
@@ -61,7 +61,7 @@ class Child1 extends Component {
     .data(['Positive', 'Negative'])
     .join('text')
     .attr('class','scale')
-    .attr('x',1350)
+    .attr('x',850)
     .attr('y',(d,i)=>(110+(i*390)))
     .text(d=>d)
 
@@ -88,7 +88,7 @@ class Child1 extends Component {
     .data(event.target.value==='Sentiment' ? ['Positive', 'Negative'] : [ 'Subjective', 'Objective',])
     .join('text')
     .attr('class','scale')
-    .attr('x',1350)
+    .attr('x',850)
     .attr('y',(d,i)=>(110+(i*390)))
     .text(d=>d)
 
@@ -104,8 +104,8 @@ class Child1 extends Component {
           <option value="Subjectivity">Subjectivity</option>
         </select>
       </div>
-      <svg className='my-svg' width="1800" height="700">
-        <g transform="translate(700,0)"></g>
+      <svg className='my-svg' width="1000" height="700">
+        <g transform="translate(500,0)"></g>
       </svg>
     </div>
     );
