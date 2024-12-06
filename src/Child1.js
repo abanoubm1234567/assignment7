@@ -20,7 +20,7 @@ class Child1 extends Component {
       )
       .force(
         "collision",
-        d3.forceCollide(5)
+        d3.forceCollide(6)
       )
       .on("tick", () => {
         d3.select("g")
@@ -31,8 +31,19 @@ class Child1 extends Component {
           .attr("cx", (d) => d.x)
           .attr("cy", (d) => d.y)
           .attr("r",  5)
-          .attr("fill", (d) => this.state.colorScale=='Sentiment'? sentimentColorScale(d.Sentiment): subjectivityColorScale(d.Subjectivity));
+          .attr("fill", (d) => this.state.colorScale==='Sentiment'? sentimentColorScale(d.Sentiment): subjectivityColorScale(d.Subjectivity));
       });
+    
+      const svg = d3.select('.my-svg');
+
+    svg.selectAll('text')
+    .data(['March', 'April', 'May'])
+    .join('text')
+    .attr('x',100)
+    .attr('y',(d,i)=> (100+i*200))
+    .text(d=> (d))
+    .attr('font-size',23)
+    .attr('font-weight','bold')
   }
 
   handleChange = (event) => {
@@ -53,7 +64,7 @@ class Child1 extends Component {
           <option value="Subjectivity">Subjectivity</option>
         </select>
       </div>
-      <svg width="1800" height="700">
+      <svg className='my-svg' width="1800" height="700">
         <g transform="translate(700,0)"></g>
       </svg>
     </div>
