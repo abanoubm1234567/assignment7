@@ -36,22 +36,62 @@ class Child1 extends Component {
     
       const svg = d3.select('.my-svg');
 
-    svg.selectAll('text')
+    svg.selectAll('.months')
     .data(['March', 'April', 'May'])
     .join('text')
+    .attr('class', 'months')
     .attr('x',100)
     .attr('y',(d,i)=> (100+i*200))
     .text(d=> (d))
     .attr('font-size',23)
-    .attr('font-weight','bold')
+    .attr('font-weight','bold');
+
+    svg.selectAll('rect')
+    .data(this.state.colorScale==='Sentiment'? [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0, -0.1, -0.2, -0.3, -0.4, -0.5, -0.6, -0.7, -0.8, -0.9, -1] : [1, 0.95, 0.85, 0.8, 0.75, 0.7, 0.65, 0.6, 0.55, 0.5, 0.45, 0.4, 0.35, 0.3, 0.25, 0.2, 0.15, 0.1, 0.05, 0]
+    )
+    .join('rect')
+    .attr('x', 1300)
+    .attr('y', (d,i)=> (100+i*20))
+    .attr('fill', d=> this.state.colorScale==='Sentiment'? sentimentColorScale(d): subjectivityColorScale(d))
+    .attr('width', 40)
+    .attr('height', 20)
+
+    
+    svg.selectAll('.scale')
+    .data(['Positive', 'Negative'])
+    .join('text')
+    .attr('class','scale')
+    .attr('x',1350)
+    .attr('y',(d,i)=>(110+(i*390)))
+    .text(d=>d)
+
   }
 
   handleChange = (event) => {
     const sentimentColorScale = d3.scaleLinear().domain([-1, 0, 1]).range(["red", "#ECECEC", "green"]);
     const subjectivityColorScale = d3.scaleLinear().domain([0,1]).range(["#ECECEC","#4467C4"]);
+
     d3.selectAll('.circles')
     .data(this.props.csv_data)
     .attr('fill', (d) => event.target.value === 'Sentiment' ? sentimentColorScale(d.Sentiment) : subjectivityColorScale(d.Subjectivity));
+
+    const svg = d3.select('.my-svg');
+
+    svg.selectAll('rect')
+    .data(event.target.value==='Sentiment'? [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0, -0.1, -0.2, -0.3, -0.4, -0.5, -0.6, -0.7, -0.8, -0.9, -1] : [1, 0.95, 0.85, 0.8, 0.75, 0.7, 0.65, 0.6, 0.55, 0.5, 0.45, 0.4, 0.35, 0.3, 0.25, 0.2, 0.15, 0.1, 0.05, 0]
+    )
+    .attr('fill', d=> event.target.value==='Sentiment'? sentimentColorScale(d): subjectivityColorScale(d));
+
+
+
+    svg.selectAll('.scale')
+    .data(event.target.value==='Sentiment' ? ['Positive', 'Negative'] : [ 'Subjective', 'Objective',])
+    .join('text')
+    .attr('class','scale')
+    .attr('x',1350)
+    .attr('y',(d,i)=>(110+(i*390)))
+    .text(d=>d)
+
   };
 
   render() {
