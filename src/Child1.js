@@ -13,8 +13,8 @@ class Child1 extends Component {
 
     var selected_idx = [];
 
-    var data = this.props.csv_data.slice(0,301);
-    //console.log(data);
+    var data = this.props.csv_data.slice(0,300); //remove ".splice(0,301)" for entire data set (((WARNING:WILL OVERFLOW THE SVG)))
+    console.log(data);
     const sentimentColorScale = d3.scaleLinear().domain([-1, 0, 1]).range(["red", "#ECECEC", "green"]);
     const subjectivityColorScale = d3.scaleLinear().domain([0,1]).range(["#ECECEC","#4467C4"]);
     var catCenters = [100, 300, 500];
