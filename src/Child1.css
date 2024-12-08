@@ -40,3 +40,11 @@
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+#tweets{
+  list-style-type: none;
+  padding: 40px;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+}

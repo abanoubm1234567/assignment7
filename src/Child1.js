@@ -10,6 +10,9 @@ class Child1 extends Component {
   componentDidMount() {}
 
   componentDidUpdate() {
+
+    var selected_idx = [];
+
     var data = this.props.csv_data.slice(0,301);
     //console.log(data);
     const sentimentColorScale = d3.scaleLinear().domain([-1, 0, 1]).range(["red", "#ECECEC", "green"]);
@@ -31,7 +34,33 @@ class Child1 extends Component {
           .attr("cx", (d) => d.x)
           .attr("cy", (d) => d.y)
           .attr("r",  5)
-          .attr("fill", (d) => this.state.colorScale==='Sentiment'? sentimentColorScale(d.Sentiment): subjectivityColorScale(d.Subjectivity));
+          .attr("fill", (d) => this.state.colorScale==='Sentiment'? sentimentColorScale(d.Sentiment): subjectivityColorScale(d.Subjectivity))
+          .attr('id', d=>d.idx)
+          .attr('tweet', d=> d.RawTweet)
+          .on('click', function(){
+            const index = selected_idx.findIndex(item => item.id === d3.select(this).attr('id'));
+
+            if (index === -1){
+              console.log('added');
+              selected_idx.unshift({id : d3.select(this).attr('id'), tweet: d3.select(this).attr('tweet')});
+              console.log(selected_idx);
+              d3.select(this).attr('stroke', 'black');
+            }
+            else{
+              selected_idx.splice(index, 1);
+              console.log('removed');
+              console.log(selected_idx);
+              d3.select(this).attr('stroke', 'none');
+            }
+
+            const tweets = d3.select("#tweets");
+
+            tweets.selectAll('li')
+            .data(selected_idx)
+            .join('li')
+            .text(d=>d.tweet)
+
+          });
       });
     
       const svg = d3.select('.my-svg');
@@ -104,9 +133,12 @@ class Child1 extends Component {
           <option value="Subjectivity">Subjectivity</option>
         </select>
       </div>
-      <svg className='my-svg' width="1000" height="700">
+      <svg className='my-svg' width="1000" height="600">
         <g transform="translate(500,0)"></g>
       </svg>
+      <div>
+        <li id="tweets"></li>
+      </div>
     </div>
     );
   }
