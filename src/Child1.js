@@ -34,22 +34,22 @@ class Child1 extends Component {
           .attr("cx", (d) => d.x)
           .attr("cy", (d) => d.y)
           .attr("r",  5)
-          .attr("fill", (d) => this.state.colorScale==='Sentiment'? sentimentColorScale(d.Sentiment): subjectivityColorScale(d.Subjectivity))
+          .attr("fill", (d) => sentimentColorScale(d.Sentiment))
           .attr('id', d=>d.idx)
           .attr('tweet', d=> d.RawTweet)
           .on('click', function(){
             const index = selected_idx.findIndex(item => item.id === d3.select(this).attr('id'));
 
             if (index === -1){
-              console.log('added');
+              //console.log('added');
               selected_idx.unshift({id : d3.select(this).attr('id'), tweet: d3.select(this).attr('tweet')});
-              console.log(selected_idx);
-              d3.select(this).attr('stroke', 'black');
+              //console.log(selected_idx);
+              d3.select(this).attr('stroke', 'black').attr('stroke-width',2);
             }
             else{
               selected_idx.splice(index, 1);
-              console.log('removed');
-              console.log(selected_idx);
+              //console.log('removed');
+              //console.log(selected_idx);
               d3.select(this).attr('stroke', 'none');
             }
 
