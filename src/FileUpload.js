@@ -27,9 +27,9 @@ class FileUpload extends Component {
   render() {
     return (
       <div style={{ backgroundColor: "#f0f0f0", padding: 20 }}>
-        <h2>Upload a CSV File</h2>
+        <h2>Upload a JSON File</h2>
         <form onSubmit={this.handleFileSubmit}>
-          <input type="file" accept=".csv" onChange={(event) => this.setState({ file: event.target.files[0] })} />
+          <input type="file" accept=".json" onChange={(event) => this.setState({ file: event.target.files[0] })} />
           <button type="submit">Upload</button>
         </form>
       </div>
